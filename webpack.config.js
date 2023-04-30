@@ -1,0 +1,58 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const InlineChunkHtmlPlugin = require('inline-chunk-html-plugin'),
+  HtmlWebpackPlugin = require('html-webpack-plugin'),
+  path = require('path');
+
+let mode = process.env.NODE_ENV;
+
+module.exports = {
+  mode: mode,
+  target: 'browserslist',
+  devtool: mode === 'production' ? false : 'inline-source-map',
+  entry: {
+    ui: './app/ts/ui/ui.ts',
+    code: './app/ts/code/code.ts',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.pug$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'pug-loader',
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /(node_modules|bower_components)/,
+        enforce: 'pre',
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-typescript"],
+            },
+          },
+          { loader: 'ts-loader' },
+          { loader: 'webpack-glob-loader' },
+        ],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './app/pug/index.pug',
+      filename: 'ui.html',
+      inject: 'body',
+      chunks: ['ui'],
+      cache: false,
+    }),
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, ['.js$']),
+  ],
+};
