@@ -20,24 +20,22 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'pug-loader',
       },
-            {
+      {
         test: /\.s[ac]ss$/i,
         enforce: 'pre',
-        use: [
-          { loader: 'webpack-glob-loader' }
-        ]
+        use: [{ loader: 'webpack-glob-loader' }],
       },
       { test: /\.(sass|scss|css)$/, use: ['style-loader', { loader: 'css-loader' }, 'sass-loader'] },
       { test: /\.(png|jpg|gif|webp|svg)$/, loader: 'url-loader' },
       {
-        test: /\.(ts|tsx)$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.(ts|tsx|js|jsx)$/,
+        exclude: /node_modules\/(?!(@create-figma-plugin)\/).*/,
         enforce: 'pre',
         use: [
           {
             loader: 'babel-loader',
             options: {
-              presets: ["@babel/preset-env", "@babel/preset-typescript"],
+              presets: ['@babel/preset-env', '@babel/preset-typescript'],
             },
           },
           { loader: 'ts-loader' },
