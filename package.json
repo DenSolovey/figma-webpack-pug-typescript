@@ -2,7 +2,6 @@
   "name": "figma-plugins-bundle",
   "version": "1.0.0",
   "description": "Bundle for figma plugins",
-  "main": "index.js",
   "scripts": {
     "dev": "set NODE_ENV=development&&webpack --watch",
     "prod": "set NODE_ENV=production&&webpack"
@@ -46,7 +45,7 @@
     "webpack-glob-loader": "^1.0.0"
   },
   "dependencies": {
+    "@create-figma-plugin/utilities": "^2.4.0",
     "@figma-plugin/helpers": "^0.15.2",
-    "@create-figma-plugin/utilities": "^2.4.0"
   }
 }
